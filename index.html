@@ -1,1 +1,20 @@
-<div style="padding-bottom: 177.78%; position: relative;"><iframe style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;" src="https://www.twitch.tv/embed/chilltv/chat" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen"  width="100%" height="100%" frameborder="0"><small>Powered by <a href="https://embed.tube/embed-code-generator/twitch/">twitch embed</a> generator</small></iframe></div>
+<html>
+  <body>
+    <!-- Add a placeholder for the Twitch embed -->
+    <div id="twitch-embed"></div>
+
+    <!-- Load the Twitch embed JavaScript file -->
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+    <!-- Create a Twitch.Embed object that will render within the "twitch-embed" element -->
+    <script type="text/javascript">
+      new Twitch.Embed("twitch-embed", {
+        width: 854,
+        height: 480,
+        channel: "jlgamerprime",
+        // Only needed if this page is going to be embedded on other websites
+        parent: ["hernanjuandiaz.github.io"]
+      });
+    </script>
+  </body>
+</html>

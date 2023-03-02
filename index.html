@@ -1,31 +1,98 @@
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"/>
-    <meta name="description" content="chilltv2&#039;s official website powered by Streamlabs">
-    <meta name="keywords" content="chilltv2, Twitch, Tip, Donation, Livestream, Official">
-    
-            <link rel="icon" type="image/png" href="https://static-cdn.jtvnw.net/jtv_user_pictures/a5f2fd71-b292-4bc4-b0ff-8b7fc2942f35-profile_image-300x300.png">
-        <meta property="og:image" content="https://static-cdn.jtvnw.net/jtv_user_pictures/a5f2fd71-b292-4bc4-b0ff-8b7fc2942f35-profile_image-300x300.png">
-    
-          <meta property="og:description" content="chilltv2&#039;s official website powered by Streamlabs">
-      <meta name="twitter:description" content="chilltv2&#039;s official website powered by Streamlabs">
-              <meta name="twitter:title" content="chilltv2 / Streamlabs">
-      <meta property="og:title" content="chilltv2 / Streamlabs">
-              <meta property="og:url" content="https://www.streamlabs.com/chilltv2/home">
-    
-    <meta name="twitter:card" content="summary_large_image">
+<html>
+<head>
+  <style>
+    .hide { display:none; }
+    #twitch-video {
+      padding-top: 56.25%;
+      position: relative;
+      height: 0;
+    }
 
-          <meta name="theme-color" content="#F5F8FA">
-    
-        <title>chilltv2 / Streamlabs </title>
-    
-    <!-- we can defer loading recaptcha from the contact form when needed -->
-    <link rel="dns-prefetch" href="https://streamlabs.com">
-    <link rel="dns-prefetch" href="https://sp.streamlabs.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://sp.streamlabs.com/css/all.css?id=ecd27ae7c1b6589aa181" type="text/css">
-    <script src="https://www.instagram.com/embed.js" async ></script>
-    <script src="https://embed.twitch.tv/embed/v1.js" async></script>
-    <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+    #twitch-video iframe{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+    }
+    .twitch-container .twitch-chat {
+      height: 400px;
+    }
+
+    .twitch-container .twitch-chat iframe {
+      width: 100%;
+      height: 100%;
+    }
+    @media screen and (min-width: 850px) {
+  .twitch-container {
+    position: relative;
+  }
+
+  #twitch-video {
+    width: 75%;
+    padding-top: 42.1875%;
+  }
+
+  .twitch-container .twitch-chat {
+    width: 25%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+    </style>
+</head>
+
+<body>
+
+  <script src= "https://player.twitch.tv/js/embed/v1.js"></script>
+	<div class="twitch-container">
+  		<div id="twitch-video" class="hide">
+  		</div>
+        <div class="twitch-chat">
+    	<iframe
+      	frameborder="0"
+      	scrolling="no"
+      	src="https://www.twitch.tv/embed/USERNAME/chat?parent=YOURWEBSITE.com&parent=www.YOURWEBSITE.com" <!-- Change the CHANNELNAME to the desired twitch handle.  Change the parent website in the URL here to the actual place you're running the script from, otherwise twitch will throw an error.  Must do versions with and without www. Only put the root URL of your website, no need to put in the specific page.-->
+      	height="100%"
+      	width="100%"
+        allow="autoplay">
+    	</iframe>
+  </div>
+  	</div>
+
+  <script type="text/javascript">
+    var options = {
+      channel: "USERNAME", // TODO: Change this to the streams username you want to embed
+      height: 360,
+      width: 640,
+    };
+    var player = new Twitch.Player("twitch-video", options);
+
+    player.addEventListener(Twitch.Player.READY, initiate)
+
+    function initiate() {
+      player.addEventListener(Twitch.Player.ONLINE, handleOnline);
+      player.addEventListener(Twitch.Player.OFFLINE, handleOffline);
+      player.removeEventListener(Twitch.Player.READY, initiate);
+    }
+
+    function handleOnline() {
+      document.getElementById("twitch-video").classList.remove('hide');
+      document.getElementById("twitch-container").classList.remove('hide');
+      player.removeEventListener(Twitch.Player.ONLINE, handleOnline);
+      player.addEventListener(Twitch.Player.OFFLINE, handleOffline);
+      player.setMuted(false);
+    }
+
+    function handleOffline() {
+      document.getElementById("twitch-video").classList.add('hide');
+      document.getElementById("twitch-container").classList.add('hide');
+      player.removeEventListener(Twitch.Player.OFFLINE, handleOffline);
+      player.addEventListener(Twitch.Player.ONLINE, handleOnline);
+      player.setMuted(true);
+    }
+  </script>
+
+</body>
